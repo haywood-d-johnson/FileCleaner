@@ -14,18 +14,19 @@ import java.util.logging.Logger;
  *
  * @author hwood
  */
-public class FileCleaner {
+public class FileCleanerJob {
 
     public static void main(String[] args) {
+        // get env variables
         Dotenv dotenv = Dotenv.load();
         StringBuilder directory = new StringBuilder(dotenv.get("DESTINATION_PATH"));
     
-        System.out.println("Getting all files from path: " + directory);
-        try {
-            FileMethods.GetAllFilesInDirectory(directory.toString());
-            //FolderMethods.FlattenFolderStructure();
-        } catch (IOException ex) {
-            Logger.getLogger(FileCleaner.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        System.out.println("Getting all files from path: " + directory);
+//        try {
+//            FileMethods.GetAllFilesInDirectory(directory.toString());
+//            //FolderMethods.FlattenFolderStructure();
+//        } catch (IOException ex) {
+//            Logger.getLogger(FileCleanerJob.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

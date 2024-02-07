@@ -1,3 +1,2 @@
-com\lordorb\filecleaner\FileMethods.class
-com\lordorb\filecleaner\FileCleaner.class
 com\lordorb\filecleaner\FolderMethods.class
+com\lordorb\filecleaner\FileCleanerJob.class
