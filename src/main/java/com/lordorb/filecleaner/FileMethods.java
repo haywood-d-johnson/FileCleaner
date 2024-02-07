@@ -13,20 +13,5 @@ import java.io.IOException;
  */
 public class FileMethods {
     
-    public static void GetAllFilesInDirectory(String path) throws IOException {
-        
-        UnitOfWork unitOfWork = new UnitOfWork();
-        
-        StringBuilder sourceFolder;
-        
-        File directory = new File(path);
-        File[] files = directory.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                sourceFolder = new StringBuilder(path);
-                sourceFolder.append(file.getName());
-            }
-            System.out.println(file.getName());
-        }
-    }
+
 }
