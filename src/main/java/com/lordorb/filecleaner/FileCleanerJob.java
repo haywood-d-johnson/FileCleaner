@@ -19,14 +19,14 @@ public class FileCleanerJob {
 
         StringBuilder directory = new StringBuilder(envMap.get("DESTINATION_PATH"));
         
-        System.out.println(directory);
-    
-//        System.out.println("Getting all files from path: " + directory);
-//        try {
-//            FileMethods.GetAllFilesInDirectory(directory.toString());
-//            //FolderMethods.FlattenFolderStructure();
-//        } catch (IOException ex) {
-//            Logger.getLogger(FileCleanerJob.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        File sourceFolder = new File("/path/to/source/folder");
+        File destinationFolder = new File("/path/to/destination/folder");
+
+        try {
+            flattenFolderStructure(sourceFolder, destinationFolder);
+            System.out.println("Folder structure flattened successfully!");
+        } catch (IOException e) {
+            System.err.println("Error flattening folder structure: " + e.getMessage());
+        }
     }
 }
