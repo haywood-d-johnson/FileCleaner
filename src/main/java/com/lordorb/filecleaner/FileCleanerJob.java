@@ -1,10 +1,11 @@
 package com.lordorb.filecleaner;
 
 import com.lordorb.helpers.*;
+import static com.lordorb.helpers.CommonService.flattenFolderStructure;
+import static com.lordorb.helpers.CommonService.clearEmptyDirectories;
+import java.io.File;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.logging.*;
 
 
 /**
@@ -17,13 +18,15 @@ public class FileCleanerJob {
         
         var envMap = UnitOfWork.setEnvHashMap();   
 
-        StringBuilder directory = new StringBuilder(envMap.get("DESTINATION_PATH"));
+        var directory = envMap.get("DESTINATION_PATH");
         
-        File sourceFolder = new File("/path/to/source/folder");
-        File destinationFolder = new File("/path/to/destination/folder");
+        // Send both. Destination folder will be appended with the name of the folder
+        File sourceFolder = new File(directory);
+        File destinationFolder = new File(directory);
 
         try {
             flattenFolderStructure(sourceFolder, destinationFolder);
+            clearEmptyDirectories(destinationFolder);
             System.out.println("Folder structure flattened successfully!");
         } catch (IOException e) {
             System.err.println("Error flattening folder structure: " + e.getMessage());
