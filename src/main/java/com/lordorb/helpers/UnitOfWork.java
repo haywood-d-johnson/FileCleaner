@@ -1,56 +1,63 @@
 package com.lordorb.helpers;
 
-import java.util.*;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import org.ini4j.Ini;
+import org.ini4j.Profile.Section;
 
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UnitOfWork {
 
- public static Map<String, String> readConfigFromIniFile(File iniFile) throws IOException {
-        Map<String, String> configMap = new HashMap<>();
+    public static Map<String, Map<String, String>> readConfigFromIniFile(String iniFilePath) throws IOException {
+        Map<String, Map<String, String>> iniMap = new HashMap<>();
 
-        try {
-            Ini ini = new Ini(new FileReader(iniFile));
+        try (FileReader fileReader = new FileReader(new File(iniFilePath));
+             BufferedReader reader = new BufferedReader(fileReader)) {
 
-            // Iterate over sections
-            for (String sectionName : ini.keySet()) {
-                Ini.Section section = ini.get(sectionName);
+            Ini readIni = new Ini(reader);
 
-                // Iterate over keys in each section
+            for (String sectionName : readIni.keySet()) {
+                Map<String, String> sectionMap = new HashMap<>();
+                Section section = readIni.get(sectionName);
+
                 for (String key : section.keySet()) {
-                    String value = section.get(key);
-                    configMap.put(key, value);
+                    sectionMap.put(key, section.get(key));
                 }
+
+                iniMap.put(sectionName, sectionMap);
             }
-        } catch (IOException e) {
-            throw new IOException("Error reading INI file: " + e.getMessage());
         }
 
-        return configMap;
+        return iniMap;
     }
-    
-    public static File copyIniFileToDesktop() throws IOException {
-        // Define the destination directory (e.g., user's desktop)
-        File desktopDir = new File(System.getProperty("user.home"), "Desktop");
 
-        // Create a File object for the INI file on the desktop
-        File iniFileOnDesktop = new File(desktopDir, "config.ini");
+    public static boolean copyIniFileToDesktop(String iniFilePath) throws IOException {
+        File sourceFile = new File(iniFilePath);
 
-        // Check if the INI file already exists on the desktop
-        if (!iniFileOnDesktop.exists()) {
-            // INI file doesn't exist on the desktop, so copy it from resources
-            InputStream inputStream = UnitOfWork.class.getResourceAsStream("/config.ini");
-            Files.copy(inputStream, iniFileOnDesktop.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (!sourceFile.exists()) {
+            throw new FileNotFoundException("INI file not found: " + iniFilePath);
         }
 
-        // Return the File object representing the INI file on the desktop
-        return iniFileOnDesktop;
+        File desktopDirectory = new File(System.getProperty("user.home"), "Desktop");
+        File destinationFile = new File(desktopDirectory, sourceFile.getName());
+
+        if (destinationFile.exists()) {
+            return false; // File already exists on the desktop
+        }
+
+        try (FileInputStream fileInputStream = new FileInputStream(sourceFile);
+             FileOutputStream fileOutputStream = new FileOutputStream(destinationFile)) {
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fileInputStream.read(buffer)) > 0) {
+                fileOutputStream.write(buffer, 0, length);
+            }
+
+            System.out.println("File successfully copied to the desktop: " + destinationFile.getAbsolutePath());
+        }
+
+        return true;
     }
 }
