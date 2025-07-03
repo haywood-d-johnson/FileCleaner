@@ -12,122 +12,85 @@ A Java application that helps organize files in a directory based on their namin
 - Detailed logging and error handling
 - Available as both JAR and native executable
 
-## Requirements
+## Quick Start
 
-For JAR version:
-- Java 11 or higher
+### Building the Application
 
-For native executable:
-- No requirements (standalone binary)
-
-For building from source:
-- Java 11 or higher
-- Maven
-- GraalVM CE 22.3.0 or later (for native executable)
-
-## Installation
-
-### Option 1: Download Pre-built Binary (Recommended)
-
-1. Download the appropriate version for your OS:
-   - Windows: `filecleaner.exe`
-   - Linux: `filecleaner`
-   - macOS: `filecleaner-macos`
-
-2. Make the file executable (Linux/macOS):
-   ```bash
-   chmod +x filecleaner
-   ```
-
-### Option 2: Download JAR
-
-1. Download `filecleaner.jar`
-2. Run with Java:
-   ```bash
-   java -jar filecleaner.jar
-   ```
-
-### Option 3: Build from Source
-
-1. Clone this repository:
+1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/FileCleaner.git
    cd FileCleaner
    ```
 
-2. Build JAR:
+2. Run the build script:
    ```bash
-   mvn clean package
+   chmod +x build.sh
+   ./build.sh
    ```
-   Find the JAR in `target/filecleaner-jar-with-dependencies.jar`
 
-3. Build native executable:
-   ```bash
-   # First install GraalVM and set JAVA_HOME
-   export JAVA_HOME=/path/to/graalvm
-   export PATH=$JAVA_HOME/bin:$PATH
+The script will automatically:
+- Set up GraalVM if needed
+- Build both native executable and JAR versions
+- Show the location of the built artifacts
 
-   # Install native-image tool
-   gu install native-image
+For detailed build instructions and troubleshooting, see [BUILD.md](BUILD.md).
 
-   # Build native executable
-   mvn -Pnative clean package
-   ```
-   Find the executable in `target/filecleaner`
+### Running the Application
+
+After building, you can run either:
+
+**Native Executable** (recommended, no Java required):
+```bash
+./target/filecleaner
+```
+
+**JAR Version** (requires Java 11+):
+```bash
+java -jar target/filecleaner-jar-with-dependencies.jar
+```
 
 ## Usage
 
-### Native Executable
-```bash
-# Linux/macOS
-./filecleaner
-
-# Windows
-filecleaner.exe
-```
-
-### JAR Version
-```bash
-java -jar filecleaner.jar
-```
-
-Use the interactive menu to:
-- Set the directory to organize
-- View current settings
-- Start the organization process
-- Exit the application
+1. Start the application using either method above
+2. Use the interactive menu to:
+   - Set the directory to organize
+   - View current settings
+   - Start the organization process
+   - Exit the application
 
 ### Path Format Examples
 
 The application accepts paths in various formats:
-
 - Windows: `C:\Users\YourName\Documents`
 - Linux/macOS: `/home/username/documents`
 - WSL: Both Windows paths (automatically converted) and Linux paths are accepted
 
 ## Notes
 
-- The application organizes files in-place (within the same directory)
+- Files are organized in-place (within the same directory)
 - Files are moved into subdirectories based on their constant prefix
 - Original files are moved, not copied
 - Configuration is saved between sessions
 - Native executable has faster startup time and requires no Java installation
 
-## Troubleshooting
+## Requirements
 
-If you encounter any issues:
+For running the application:
+- Native executable: No requirements
+- JAR version: Java 11 or higher
 
-1. When using JAR version:
-   - Check Java installation: `java -version`
-   - Ensure Java 11 or higher is installed
+For building from source:
+- See [BUILD.md](BUILD.md) for detailed requirements and instructions
 
-2. When using native executable:
-   - Ensure the file has execute permissions (Linux/macOS)
-   - Run from terminal to see any error messages
+## Buy Me a Coffee
 
-3. For all versions:
-   - Ensure you have read/write permissions in the target directory
-   - For WSL users: Make sure Windows paths are accessible
+If you find this project helpful, consider supporting me!
+
+[![Buy Me a Coffee](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/)
+
+Scan the QR code below to buy me a coffee:
+
+<img src="public/bmc_qr.png" alt="Buy Me a Coffee QR" width="200"/>
 
 ## License
 

@@ -16,6 +16,38 @@
         <native.maven.plugin.version>0.9.19</native.maven.plugin.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <version>${native.maven.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>filecleaner</imageName>
+                            <mainClass>com.lordorb.FileCleaner</mainClass>
+                            <buildArgs>
+                                <buildArg>--no-fallback</buildArg>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>filecleaner</finalName>
         <plugins>
@@ -47,29 +79,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- Native Image Plugin -->
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <version>${native.maven.plugin.version}</version>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>build-native</id>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <imageName>filecleaner</imageName>
-                    <mainClass>com.lordorb.FileCleaner</mainClass>
-                    <buildArgs>
-                        <buildArg>--no-fallback</buildArg>
-                    </buildArgs>
-                </configuration>
             </plugin>
         </plugins>
     </build>
